@@ -292,11 +292,14 @@ async def main() -> None:
     cookie = COOKIES
     if not patterns:
         raise ValueError("PATTERNS 至少需要一条正则规则")
-    if "填写你的" in bot_token or "填写你的" in chat_id:
-        raise ValueError("请在 main() 中填写 Bot Token 和 Chat ID")
+    if any(
+        value.startswith(("填写你的", "你的"))
+        for value in (User_Agent, OFFER_ITEM_ID, cookie, bot_token, chat_id)
+    ):
+        raise ValueError("请先填写 User-Agent、OFFER_ITEM_ID、COOKIES、BOT_TOKEN 和 CHAT_ID")
 
     headers = {
-        "User-Agent": User_Agent
+        "User-Agent": User_Agent,
         "Accept": "application/json",
         "Content-Type": "application/json",
         "Origin": "https://sklep.play.pl",
