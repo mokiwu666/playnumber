@@ -31,30 +31,13 @@ python3 -m pip install aiohttp yarl
 
 脚本只处理来自所配置 `chat_id`、且在本次启动后收到的 Telegram 消息。首次使用 Bot 时，先在 Telegram 中向它发送一条消息，确保它能向该聊天回复。
 
-### 当前粘贴版本需要修正的代码
-
-在 `headers` 字典中，`User_Agent` 后面缺少逗号。改成：
-
-```python
-"User-Agent": User_Agent,
-"Accept": "application/json",
-```
-
-在 `send_cookies()` 开头，`if not cookie:` 之前补上：
-
-```python
-cookie = current_cookies(play_session)
-```
-
-文件开头还有一个 `COOKIES` 占位变量，但实际请求使用的是 `main()` 中的 `cookie`。请修改真正被使用的 `cookie`，或自行统一这两个变量；只填写 `COOKIES` 不会改变请求 Cookie。
-
 ## 运行
 
 ```bash
 python3 play.py
 ```
 
-启动后立即开始找号。终端会打印查询错误、找到的号码以及手动预订的结果。按 `Ctrl+C` 结束整个程序。
+启动后立即开始找号。会输出找到的号码以及手动预订的结果。
 
 ## Telegram 指令
 
@@ -67,4 +50,4 @@ python3 play.py
 
 `/stop` 后，已经发出的查询或已经排队的通知可能仍会完成。`/find` 恢复时，如果此前触发了 401、403 或 429 的限速等待，查询要等该等待结束。`/add` 不受找号暂停状态影响。
 
-同一个号码在一次程序运行中只通知一次；重启后会重新统计。Cookie 和 Bot Token 可用于访问账户或 Bot，请勿将配置后的脚本提交到公开仓库，也不要在公开聊天中使用 `/cookies`。
+同一个号码在一次程序运行中只通知一次；重启后会重新统计。Cookie 和 Bot Token 可用于访问账户或 Bot，`/cookies`。
